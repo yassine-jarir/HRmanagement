@@ -1,0 +1,3 @@
+git fetch origin
+git checkout -b feature-structure-routing origin/feature-structure-routing
+
