@@ -18,12 +18,18 @@ return [
         'passwords' => 'users',
     ],
 
-    'guards' => [
-        'api' => [
-            'driver' => 'jwt',
-            'provider' => 'users',
+        'guards' => [
+            'web' => [
+                'driver' => 'session',
+                'provider' => 'users',
+            ],
+
+            'api' => [
+                'driver' => 'token',  
+                'provider' => 'users',
+                
+            ],
         ],
-    ],
 
 
     /*
@@ -43,12 +49,7 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-    ],
+ 
 
     /*
     |--------------------------------------------------------------------------
