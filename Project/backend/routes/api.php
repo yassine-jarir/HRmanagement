@@ -1,7 +1,8 @@
 <?php
 
- use App\Http\Controllers\TasksController;
+use App\Http\Controllers\TasksController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LeaveReqController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,16 +15,21 @@ Route::post('logout',[AuthController::class,'logout'])
 
 Route::middleware('auth:sanctum')->group( function () {
 //  admin 
+Route::get('/users', [TasksController::class, 'getUsers']);  
 
-// tasks
+//  admin -- tasks
 Route::get('/tasks', [TasksController::class, 'index']);
 Route::get('/tasks/{id}', [TasksController::class, 'show']);
 Route::post('/tasks', [TasksController::class, 'store']);
 Route::put('/tasks/{id}', [TasksController::class, 'update']);
 Route::delete('/tasks/{id}', [TasksController::class, 'destroy']);
-Route::get('/users', [TasksController::class, 'getUsers']);  
 
-// leave request
+//  admin -- leave request
+Route::get('/leave', [LeaveReqController::class, 'index']);
+ Route::post('/leave', [LeaveReqController::class, 'store']);
+Route::put('/leave/{id}', [LeaveReqController::class, 'update']);
+Route::delete('/leave/{id}', [LeaveReqController::class, 'destroy']);
 
+// admin -- payroll 
 
 });

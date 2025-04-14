@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('leave_request', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId(column: 'user_id')->constrained('users')->onDelete('cascade');
             $table->string('type')->nullable(); 
             $table->date('start_date');
             $table->date('end_date');
@@ -31,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('leave_request');
     }
 };
+ 
