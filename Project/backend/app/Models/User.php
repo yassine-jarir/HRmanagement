@@ -57,4 +57,7 @@ class User extends Authenticatable
     public function leaveReq(){
         return $this->hasMany(leaveReq::class);
     }
+    public function pointages(){
+        return $this->hasMany(Pointage::class);
+    }
 }

@@ -24,7 +24,6 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'User Created ',
             'user' => $user,
-
         ]);
     }
 
@@ -48,7 +47,6 @@ class AuthController extends Controller
     }
 
     public function logout(){
-         //fix intelephense(1013) annoying error.
     /** @var \App\Models\User $user **/
         $user = Auth::user();
         $user->tokens()->delete();

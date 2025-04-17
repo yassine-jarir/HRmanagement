@@ -17,4 +17,7 @@ class Tasks extends Model
         
         return $this->belongsToMany(User::class,'task_user','task_id', 'user_id');
     }
+    public function pointages(){
+        return $this->hasMany(Pointage::class);
+    }
 }
