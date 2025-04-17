@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
@@ -43,6 +44,9 @@ Route::post('/startWork', [pointController::class, 'startWork']);
 Route::post('/endWork', [pointController::class, 'endWork']);
 Route::get('/emplyeePoint', [pointController::class, 'index']);
 
+// admin -- pointage
+Route::get('/calculPayroll', [PayrollController::class, 'calculPayroll']);
+Route::get('/calculateSalary', [PayrollController::class, 'calculateSalary']);
 
 
  });
