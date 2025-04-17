@@ -4,6 +4,7 @@ use App\Http\Controllers\TasksController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeaveReqController;
+use App\Http\Controllers\pointController;
 use App\Http\Controllers\usersController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,8 +38,11 @@ Route::get('/Employee/{id}', [EmployeeController::class, 'show']);
 Route::put('/Employee/{id}', [EmployeeController::class, 'update']);
 Route::delete('Employee/{id}', [EmployeeController::class, 'destroy']);
 
-// users -- Manage Payrolls 
- 
+// employee --  pointage 
+Route::post('/startWork', [pointController::class, 'startWork']);
+Route::post('/endWork', [pointController::class, 'endWork']);
+Route::get('/emplyeePoint', [pointController::class, 'index']);
+
 
 
  });
