@@ -46,7 +46,7 @@ Route::get('/emplyeePoint', [pointController::class, 'index']);
 
 // admin -- pointage
 Route::get('/calculPayroll', [PayrollController::class, 'calculPayroll']);
-Route::get('/calculateSalary', [PayrollController::class, 'calculateSalary']);
+ 
 
 
  });

@@ -11,13 +11,11 @@ class TasksController
         $tasks = Tasks::with('users')->get();
         return response()->json($tasks);
     }
-
      public function show($id)
     {
         $task = Tasks::with('users')->findOrFail($id);
         return response()->json($task);
     }
-
      public function store(Request $request)
     {
         $validated = $request->validate([
@@ -36,7 +34,6 @@ class TasksController
 
         return response()->json(['message' => 'Task created and assigned', 'task' => $task->load('users')]);
     }
-
      public function update(Request $request, $id)
     {
         $task = Tasks::findOrFail($id);
@@ -56,7 +53,6 @@ class TasksController
 
         return response()->json(['message' => 'Task updated', 'task' => $task->load('users')]);
     }
-
      public function destroy($id)
     {
         $task = Tasks::findOrFail($id);
@@ -64,7 +60,6 @@ class TasksController
 
         return response()->json(['message' => 'Task deleted']);
     }
-
      public function getUsers()
     {
         $users = User::select('id', 'name')->get();

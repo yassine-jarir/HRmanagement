@@ -5,6 +5,7 @@
         Have an account?
         <RouterLink :to="{ name: 'login' }" class="font-semibold text-primary">Login</RouterLink>
       </p>
+
       <VaInput
         v-model="formData.email"
         :rules="[(v) => !!v || 'Email field is required', (v) => /.+@.+\..+/.test(v) || 'Email should be valid']"
@@ -21,36 +22,32 @@
           class="mb-4"
           label="Password"
           messages="Password should be 8+ characters: letters, numbers, and special characters."
-          @clickAppendInner.stop="isPasswordVisible.value = !isPasswordVisible.value"
+          @clickAppendInner.stop= "isPasswordVisible.value = !isPasswordVisible.value "
         >
+
           <template #appendInner>
             <VaIcon
-              :name="isPasswordVisible.value ? 'mso-visibility_off' : 'mso-visibility'"
-              class="cursor-pointer"
-              color="secondary"
+              :name= "isPasswordVisible.value ? 'mso-visibility_off' : 'mso-visibility'"
+              class= "cursor-pointer"
+              color= "secondary"
             />
           </template>
         </VaInput>
+
         <VaInput
-          ref="password2"
-          v-model="formData.repeatPassword"
-          :rules="[
-            (v) => !!v || 'Repeat Password field is required',
-            (v) => v === formData.password || 'Passwords don\'t match',
-          ]"
-          :type="isPasswordVisible.value ? 'text' : 'password'"
+          ref= "name"
+          v-model="formData.name"
           class="mb-4"
-          label="Repeat Password"
-          @clickAppendInner.stop="isPasswordVisible.value = !isPasswordVisible.value"
-        >
+          label="Name"
+         >
           <template #appendInner>
             <VaIcon
-              :name="isPasswordVisible.value ? 'mso-visibility_off' : 'mso-visibility'"
               class="cursor-pointer"
               color="secondary"
             />
           </template>
         </VaInput>
+
       </VaValue>
 
       <div class="flex justify-center mt-4">
@@ -71,19 +68,39 @@
   const formData = reactive({
     email: '',
     password: '',
-    repeatPassword: '',
+    name: '',
   })
 
-  const submit = () => {
-    if (validate()) {
-      init({
-        message: "You've successfully signed up",
-        color: 'success',
+  const submit = async () => {
+  if (validate()) {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/register`, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+          },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          name : formData.name,
+        }),
       })
-      push({ name: 'dashboard' })
+ 
+      const result = await response.json()
+      console.log(result);
+
+      if (response.ok) {
+        init({ message: "You've successfully register in", color: 'success' })
+          push({ name: 'login' })
+              } else {    
+        init({ message: result.message || 'Register failed', color: 'danger' })
+      }
+    } catch (error) {
+      init({ message: 'An error occurred. Please try again.', color: 'danger' })
     }
   }
-
+     
+}
   const passwordRules: ((v: string) => boolean | string)[] = [
     (v) => !!v || 'Password field is required',
     (v) => (v && v.length >= 8) || 'Password must be at least 8 characters long',

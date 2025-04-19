@@ -23,7 +23,7 @@ class PayrollController extends Controller
         }
         $payroll = Payroll::create([
             'user_id' => Auth::user()->id,
-            'salary' => $this->calculateSalary($totalHours),
+            'salary' => $totalHours * 20,
             'hours_worked' => $totalHours,
             'payment_date' => now(),   
         ]);
@@ -34,8 +34,6 @@ class PayrollController extends Controller
             'payroll' => $payroll
         ]);
     }
-    public function calculateSalary($hoursWorked)
-    {
-        return $hoursWorked * 20;   
-    }
+ 
+    
 }

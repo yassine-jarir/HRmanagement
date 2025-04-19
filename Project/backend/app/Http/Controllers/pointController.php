@@ -19,7 +19,6 @@ class pointController extends Controller
             'task_id' => 'required|exists:Tasks,id'
         ]);
 
-        
         $pointage = Pointage::create([
             'start_time' => now(),
             'end_time' => null,
@@ -32,6 +31,7 @@ class pointController extends Controller
             'pointage' => $pointage
         ]);
     }
+    
     public function endWork(Request $request){
         $pointage = Pointage::where('employee_id',Auth::user()->id)
             ->whereNull('end_time')

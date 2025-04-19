@@ -12,9 +12,12 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
-    "types": ["vite/client"],
-    "allowJs": true
+     "allowJs": true,
+     "types": ["node"],
+     "typeRoots": ["@types", "node_modules/@types"],
+
+
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "vite.config.ts", "node_modules/vuestic-ui"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "vite.config.ts", "node_modules/vuestic-ui", "src/main.ts"],
   "exclude": ["node_modules/**/*"]
 }

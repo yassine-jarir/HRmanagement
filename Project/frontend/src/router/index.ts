@@ -20,6 +20,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'dashboard',
         path: 'dashboard',
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
+        meta: { requiresAuth: true , role: 'admin' },
       },
       {
         name: 'settings',
@@ -113,8 +114,7 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     }
-    // For some reason using documentation example doesn't scroll on page navigation.
-    if (to.hash) {
+     if (to.hash) {
       return { el: to.hash, behavior: 'smooth' }
     } else {
       window.scrollTo(0, 0)
@@ -122,5 +122,22 @@ const router = createRouter({
   },
   routes,
 })
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  const role = JSON.parse(localStorage.getItem('user') || '{}').role
+console.log(role);
+
+  const isAuthenticated = !!token
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ name: 'login' })
+  } else if (to.meta.role && role !== to.meta.role) {
+    next({ name: '404' }) 
+  } else {
+    next()
+  }
+})
+
 
 export default router
