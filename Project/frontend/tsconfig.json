@@ -18,6 +18,6 @@
 
 
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "vite.config.ts", "node_modules/vuestic-ui", "src/main.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "vite.config.ts", "node_modules/vuestic-ui", "src/main.ts", "src/components/sidebar/employeeRoutes.js", "src/components/sidebar/adminRoutes.js"],
   "exclude": ["node_modules/**/*"]
 }

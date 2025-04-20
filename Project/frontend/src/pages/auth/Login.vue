@@ -79,7 +79,7 @@ const submit = async () => {
       console.log(result);
 
       if (response.ok) {
-        localStorage.setItem('token', result.token)
+        localStorage.setItem('access_token', result.access_token)
         localStorage.setItem('user', JSON.stringify(result.user))
         init({ message: "You've successfully logged in", color: 'success' })
         push({ name: 'dashboard' })

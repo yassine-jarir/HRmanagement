@@ -14,13 +14,18 @@ const routes: Array<RouteRecordRaw> = [
     name: 'admin',
     path: '/',
     component: AppLayout,
-    redirect: { name: 'dashboard' },
+    redirect: { 
+      name: 'dashboard' 
+    },
     children: [
       {
         name: 'dashboard',
         path: 'dashboard',
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
-        meta: { requiresAuth: true , role: 'admin' },
+        meta: { 
+          requiresAuth: true , 
+          role: 'admin'
+        },
       },
       {
         name: 'settings',
@@ -124,7 +129,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('access_token')
   const role = JSON.parse(localStorage.getItem('user') || '{}').role
 console.log(role);
 

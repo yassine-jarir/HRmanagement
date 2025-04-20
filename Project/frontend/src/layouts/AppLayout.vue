@@ -9,8 +9,8 @@
     </template>
 
     <template #left>
-      <AppSidebar :minimized="isSidebarMinimized" :animated="!isMobile" :mobile="isMobile" />
-    </template>
+       <AppSidebar :role="user.role" :minimized="isSidebarMinimized" :animated="!isMobile" :mobile="isMobile"  />
+     </template>
 
     <template #content>
       <div :class="{ minimized: isSidebarMinimized }" class="app-layout__sidebar-wrapper">
@@ -41,7 +41,6 @@ import AppNavbar from '../components/navbar/AppNavbar.vue'
 import AppSidebar from '../components/sidebar/AppSidebar.vue'
 
 const GlobalStore = useGlobalStore()
-
 const breakpoints = useBreakpoint()
 
 const sidebarWidth = ref('16rem')
@@ -50,6 +49,10 @@ const sidebarMinimizedWidth = ref(undefined)
 const isMobile = ref(false)
 const isTablet = ref(false)
 const { isSidebarMinimized } = storeToRefs(GlobalStore)
+
+// Check if user is admin or employee
+const user = JSON.parse(localStorage.getItem('user'))|| '{}'
+
 
 const onResize = () => {
   isSidebarMinimized.value = breakpoints.mdDown
@@ -70,7 +73,6 @@ onBeforeUnmount(() => {
 
 onBeforeRouteUpdate(() => {
   if (breakpoints.mdDown) {
-    // Collapse sidebar after route change for Mobile
     isSidebarMinimized.value = true
   }
 })
@@ -83,8 +85,7 @@ const onCloseSidebarButtonClick = () => {
 </script>
 
 <style lang="scss" scoped>
-// Prevent icon jump on animation
-.va-sidebar {
+ .va-sidebar {
   width: unset !important;
   min-width: unset !important;
 }
