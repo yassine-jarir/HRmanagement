@@ -17,11 +17,30 @@ const routes: Array<RouteRecordRaw> = [
     redirect: { 
       name: 'dashboard' 
     },
+    
     children: [
       {
         name: 'dashboard',
         path: 'dashboard',
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
+        meta: { 
+          requiresAuth: true , 
+          role: 'admin'
+        },  
+      },
+      {
+        name: 'leaveRequests',
+        path: '/leaveRequests',
+        component: () => import('../pages/admin/leaveRequests.vue'),
+        meta:{
+          requiresAuth: true,
+          role: 'admin'
+        }
+      },
+      {
+        name: 'users',
+        path: 'users',
+        component: () => import('../pages/admin/UsersPage.vue'),
         meta: { 
           requiresAuth: true , 
           role: 'admin'
@@ -37,11 +56,7 @@ const routes: Array<RouteRecordRaw> = [
         path: 'preferences',
         component: () => import('../pages/preferences/Preferences.vue'),
       },
-      {
-        name: 'users',
-        path: 'users',
-        component: () => import('../pages/users/UsersPage.vue'),
-      },
+
       {
         name: 'projects',
         path: 'projects',
@@ -73,7 +88,8 @@ const routes: Array<RouteRecordRaw> = [
         name: 'faq',
         path: '/faq',
         component: () => import('../pages/faq/FaqPage.vue'),
-      },
+      }
+      
     ],
   },
   {

@@ -12,8 +12,8 @@ export default {
       meta: { icon: 'group' },
     },
     {
-        name: 'projects',
-        displayName: 'menu.projects',
+        name: 'leaveRequests',
+        displayName: 'leave Requests',
         meta: {
           icon: 'folder_shared',
         },

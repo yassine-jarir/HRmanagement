@@ -50,7 +50,6 @@ const isMobile = ref(false)
 const isTablet = ref(false)
 const { isSidebarMinimized } = storeToRefs(GlobalStore)
 
-// Check if user is admin or employee
 const user = JSON.parse(localStorage.getItem('user'))|| '{}'
 
 

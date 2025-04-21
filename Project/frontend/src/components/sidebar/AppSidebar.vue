@@ -8,7 +8,7 @@
             :active="routeHasActiveChild(route)"
             :active-color="activeColor"
             :text-color="textColor(route)"
-            :aria-label="`${route.children ? 'Open category ' : 'Visit'} ${t(route.displayName)}`"
+            :aria-label="`${route.children ? 'Open category ' : 'Visit'} ${route.displayName}`"
             role="button"
             hover-opacity="0.10"
           >
@@ -21,7 +21,7 @@
                 :color="iconColor(route)"
               />
               <VaSidebarItemTitle class="flex justify-between items-center leading-5 font-semibold">
-                {{ t(route.displayName) }}
+                {{ route.displayName }}
                 <VaIcon v-if="route.children" :name="arrowDirection(isCollapsed)" size="20px" />
               </VaSidebarItemTitle>
             </VaSidebarItemContent>
@@ -34,12 +34,12 @@
               :active="isActiveChildRoute(childRoute)"
               :active-color="activeColor"
               :text-color="textColor(childRoute)"
-              :aria-label="`Visit ${t(route.displayName)}`"
+              :aria-label="`Visit ${route.displayName}`"
               hover-opacity="0.10"
             >
               <VaSidebarItemContent class="py-3 pr-2 pl-11">
                 <VaSidebarItemTitle class="leading-5 font-semibold">
-                  {{ t(childRoute.displayName) }}
+                  {{ childRoute.displayName }}
                 </VaSidebarItemTitle>
               </VaSidebarItemContent>
             </VaSidebarItem>
@@ -56,8 +56,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useColors } from 'vuestic-ui'
 
-// Importing admin and employee routes
-import adminRoutes from './adminRoutes.js'
+ import adminRoutes from './adminRoutes.js'
 import employeeRoutes from './employeeRoutes.js'
 
 export default defineComponent({

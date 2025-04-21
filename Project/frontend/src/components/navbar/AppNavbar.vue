@@ -22,7 +22,7 @@
   </VaNavbar>
 </template>
 
-<script setup lang="ts">
+<script setup >
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '../../stores/global-store'
 import AppNavbarActions from './components/AppNavbarActions.vue'
