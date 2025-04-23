@@ -1,4 +1,3 @@
- 
 export default {
   routes: [
     {
@@ -6,16 +5,28 @@ export default {
       displayName: 'menu.dashboard',
       meta: { icon: 'vuestic-iconset-dashboard' },
     },
-    {
-      name: 'users',
-      displayName: 'menu.users',
-      meta: { icon: 'group' },
+  {
+    name : 'profile',
+    displayName : 'Profile',
+    meta : {
+      icon : 'person'
+    }
+  },
+  {
+    name: 'startWork',
+    displayName: 'start Work',
+    meta: {
+      icon: 'folder_shared',
     },
-   
-    {
-        name: 'employeeSettings',
-        displayName: 'menu.users',
-        meta: { icon: 'group' },
-        },
-  ]  ,
+  },
+  {
+    name: 'requestLeave',
+    displayName: 'Request Leave',
+    meta: {
+      icon: 'folder_shared',
+    },
+  },
+  
+
+  ],
 }

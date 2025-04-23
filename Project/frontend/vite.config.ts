@@ -6,12 +6,19 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { vuestic } from '@vuestic/compiler/vite'
 import { nodeResolve as viteNodeResolve } from '@rollup/plugin-node-resolve';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    
     sourcemap: true,
-    
+  },
+  server: {
+    port: 5173,
+    strictPort: true,
+    hmr: {
+      host: 'localhost',
+    },
+    watch: {
+      usePolling: true
+    }
   },
   plugins: [
     nodeResolve({
@@ -27,6 +34,7 @@ export default defineConfig({
     }),
   ],
 })
+
 function nodeResolve(arg0: { exportConditions: string[] }): import("vite").PluginOption {
   return viteNodeResolve(arg0) as any
 }

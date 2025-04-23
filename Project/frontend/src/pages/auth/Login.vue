@@ -44,15 +44,15 @@
   </VaForm>
 </template>
 
-<script lang="ts" setup>
+<script setup>
  
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 import { validators } from '../../services/utils'
-  
+   
 const { validate } = useForm('form')
-const { push } = useRouter()
+const router= useRouter()
 const { init } = useToast()
   
 const formData = reactive({
@@ -76,13 +76,18 @@ const submit = async () => {
       })
  
       const result = await response.json()
-      console.log(result);
+      console.log(result);employee
 
       if (response.ok) {
         localStorage.setItem('access_token', result.access_token)
-        localStorage.setItem('user', JSON.stringify(result.user))
+      const user=  localStorage.setItem('user', JSON.stringify(result.user))
         init({ message: "You've successfully logged in", color: 'success' })
-        push({ name: 'dashboard' })
+        if (user.role === 'admin') {
+          router.push({ name: 'admin-dashboard' });
+        } else {
+          router.push({ name: 'employee-dashboard' });
+        }
+
       } else {
         init({ message: result.message || 'Login failed', color: 'danger' })
       }

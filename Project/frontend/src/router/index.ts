@@ -2,37 +2,63 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import AuthLayout from '../layouts/AuthLayout.vue'
 import AppLayout from '../layouts/AppLayout.vue'
-
 import RouteViewComponent from '../layouts/RouterBypass.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/:pathMatch(.*)*',
-    redirect: { name: 'dashboard' },
+    path: '/',
+    redirect: { name: 'login' }
   },
   {
     name: 'admin',
     path: '/',
     component: AppLayout,
-    redirect: { 
-      name: 'dashboard' 
-    },
-    
+    meta: { requiresAuth: true },
     children: [
       {
         name: 'dashboard',
         path: 'dashboard',
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
         meta: { 
-          requiresAuth: true , 
+          requiresAuth: true,
           role: 'admin'
         },  
       },
+      
       {
         name: 'leaveRequests',
-        path: '/leaveRequests',
+        path: 'leaveRequests',
         component: () => import('../pages/admin/leaveRequests.vue'),
         meta:{
+          requiresAuth: true,
+          role: 'admin'
+        }
+      },
+
+      {
+        name: 'dashboard',
+        path: 'dashboard',
+        component: () => import('../pages/admin/dashboard/Dashboard.vue'),
+        meta: { 
+          requiresAuth: true,
+          role: 'admin'
+        },  
+      },
+      
+      {
+        name: 'leaveRequests',
+        path: 'leaveRequests',
+        component: () => import('../pages/admin/leaveRequests.vue'),
+        meta:{
+          requiresAuth: true,
+          role: 'admin'
+        }
+      },
+      {
+        name: 'payroll',
+        path: 'payroll',
+        component: () => import('../pages/admin/PayrollManagement.vue'),
+        meta: {
           requiresAuth: true,
           role: 'admin'
         }
@@ -47,6 +73,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        name: 'tasks',
+        path: 'tasks',
+        component: () => import('../pages/admin/ManageTasks.vue'),
+        meta: { 
+          requiresAuth: true, 
+          role: 'admin'
+        },
+      },
+      {
         name: 'settings',
         path: 'settings',
         component: () => import('../pages/settings/Settings.vue'),
@@ -57,11 +92,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/preferences/Preferences.vue'),
       },
 
-      {
-        name: 'projects',
-        path: 'projects',
-        component: () => import('../pages/projects/ProjectsPage.vue'),
-      },
+      // {
+      //   name: 'projects',
+      //   path: 'projects',
+      //   component: () => import('../pages/projects/ProjectsPage.vue'),
+      // },
       {
         name: 'payments',
         path: '/payments',
@@ -88,10 +123,54 @@ const routes: Array<RouteRecordRaw> = [
         name: 'faq',
         path: '/faq',
         component: () => import('../pages/faq/FaqPage.vue'),
-      }
-      
+      },
     ],
+    
   },
+  {
+    name: 'employee',
+    path: '/',
+    component: AppLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        name: 'dashboard',
+        path: 'dashboard',
+        component: () => import('../pages/admin/dashboard/Dashboard.vue'),
+        meta: { 
+          requiresAuth: true,
+          role: 'employee'
+        },  
+      },
+      {
+        name: 'dashboard',
+        path: 'dashboard',
+        component: () => import('../pages/employee/dashboard.vue'),
+        meta: { 
+          requiresAuth: true,
+          role: 'employee'
+        },  
+      },
+      {
+        name : 'profile',
+        path : 'profile',
+        component : () => import('../pages/employee/EmployeePorfile.vue'),
+      },
+      {
+        name : 'startWork',
+        path : 'startWork',
+        component : () => import('../pages/employee/StartWork.vue'),
+      }
+      ,
+      {
+        name : 'requestLeave',
+        path : 'requestLeave',
+        component : () => import('../pages/employee/RequestLeave.vue'),
+      }
+    ],
+    
+  },
+ 
   {
     path: '/auth',
     component: AuthLayout,
@@ -127,6 +206,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/404',
     component: () => import('../pages/404.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: { name: '404' },
+  }
 ]
 
 const router = createRouter({
@@ -135,7 +218,7 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     }
-     if (to.hash) {
+    if (to.hash) {
       return { el: to.hash, behavior: 'smooth' }
     } else {
       window.scrollTo(0, 0)
@@ -147,18 +230,18 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('access_token')
   const role = JSON.parse(localStorage.getItem('user') || '{}').role
-console.log(role);
-
+   
   const isAuthenticated = !!token
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     next({ name: 'login' })
   } else if (to.meta.role && role !== to.meta.role) {
+    console.log("to.meta.role" , to.meta.role);
+    console.log("role" , role);
     next({ name: '404' }) 
   } else {
     next()
   }
 })
-
 
 export default router

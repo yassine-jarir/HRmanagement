@@ -90,8 +90,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'EmployeeTable',
-  data() {
+   data() {
     return {
       employees: [],
       showModal: false,

@@ -62,16 +62,16 @@ export const doughnutConfig = {
     x: {
       display: false,
       grid: {
-        display: false, // Disable X-axis grid lines ("net")
+        display: false,
       },
     },
     y: {
       display: false,
       grid: {
-        display: false, // Disable Y-axis grid lines ("net")
+        display: false,
       },
       ticks: {
-        display: false, // Hide Y-axis values
+        display: false,
       },
     },
   },

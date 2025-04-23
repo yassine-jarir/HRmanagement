@@ -115,7 +115,7 @@ export default defineComponent({
       navigationRoutes,
       routeHasActiveChild,
       isActiveChildRoute,
-      t,
+      t, 
       iconColor,
       textColor,
       arrowDirection,

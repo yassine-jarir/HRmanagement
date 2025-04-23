@@ -1,4 +1,3 @@
- 
 export default {
   routes: [
     {
@@ -8,15 +7,29 @@ export default {
     },
     {
       name: 'users',
-      displayName: 'menu.users',
+      displayName: 'users',
       meta: { icon: 'group' },
     },
     {
-        name: 'leaveRequests',
-        displayName: 'leave Requests',
-        meta: {
-          icon: 'folder_shared',
-        },
+      name: 'leaveRequests',
+      displayName: 'leave Requests',
+      meta: {
+        icon: 'folder_shared',
       },
-] ,
+    },
+    {
+      name: 'tasks',
+      displayName: 'Tasks',
+      meta: {
+        icon: 'folder_shared',
+      },
+    },
+    {
+      name: 'payroll',
+      displayName: 'Payroll Management',
+      meta: {
+        icon: 'payments',
+      },
+    },
+  ],
 }

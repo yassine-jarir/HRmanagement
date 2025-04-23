@@ -34,7 +34,6 @@ const ctx = computed(() => {
   if (!chart.value) {
     return null
   }
-
   return chart.value.chart?.ctx ?? null
 })
 
@@ -56,7 +55,6 @@ const computedChartData = computed<TLineChartData>(() => {
 
   const datasets = props.data.datasets.map((dataset, index) => {
     const color = getColor(colors[index % colors.length])
-
     return {
       ...dataset,
       fill: true,
