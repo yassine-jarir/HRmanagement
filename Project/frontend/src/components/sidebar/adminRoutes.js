@@ -1,34 +1,34 @@
 export default {
   routes: [
     {
-      name: 'dashboard',
-      displayName: 'menu.dashboard',
-      meta: { icon: 'vuestic-iconset-dashboard' },
+      name: 'admin-dashboard',
+      displayName: 'Dashboard',
+      meta: { icon: 'dashboard' },
     },
     {
       name: 'users',
-      displayName: 'users',
-      meta: { icon: 'group' },
+      displayName: 'Employees',
+      meta: { icon: 'groups' },
     },
     {
       name: 'leaveRequests',
-      displayName: 'leave Requests',
+      displayName: 'Leave Requests',
       meta: {
-        icon: 'folder_shared',
+        icon: 'pending_actions',
       },
     },
     {
       name: 'tasks',
       displayName: 'Tasks',
       meta: {
-        icon: 'folder_shared',
+        icon: 'assignment',
       },
     },
     {
       name: 'payroll',
       displayName: 'Payroll Management',
       meta: {
-        icon: 'payments',
+        icon: 'account_balance_wallet',
       },
     },
   ],

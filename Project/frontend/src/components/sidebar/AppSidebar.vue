@@ -3,15 +3,16 @@
     <VaAccordion v-model="value" multiple>
       <VaCollapse v-for="(route, index) in navigationRoutes.routes" :key="index">
         <template #header="{ value: isCollapsed }">
-          <VaSidebarItem
-            :to="route.children ? undefined : { name: route.name }"
-            :active="routeHasActiveChild(route)"
-            :active-color="activeColor"
-            :text-color="textColor(route)"
-            :aria-label="`${route.children ? 'Open category ' : 'Visit'} ${route.displayName}`"
-            role="button"
-            hover-opacity="0.10"
-          >
+                <VaSidebarItem
+        :to="route.children ? undefined : { name: route.name }"
+        :active="routeHasActiveChild(route)"
+        :active-color="activeColor"
+        :text-color="textColor(route)"
+        :aria-label="`${route.children ? 'Open category ' : 'Visit'} ${route.displayName}`"
+        role="button"
+        hover-opacity="0.10"
+      >
+
             <VaSidebarItemContent class="py-3 pr-2 pl-4">
               <VaIcon
                 v-if="route.meta.icon"

@@ -76,23 +76,30 @@ const submit = async () => {
       })
  
       const result = await response.json()
-      console.log(result);employee
+      console.log(result);
 
       if (response.ok) {
         localStorage.setItem('access_token', result.access_token)
-      const user=  localStorage.setItem('user', JSON.stringify(result.user))
+        localStorage.setItem('user', JSON.stringify(result.user))
+
         init({ message: "You've successfully logged in", color: 'success' })
+         
+         const user = JSON.parse(localStorage.getItem('user'))
         if (user.role === 'admin') {
           router.push({ name: 'admin-dashboard' });
         } else {
           router.push({ name: 'employee-dashboard' });
         }
-
-      } else {
+        console.log(response);
+        
+      }
+       else {
         init({ message: result.message || 'Login failed', color: 'danger' })
       }
     } catch (error) {
       init({ message: 'An error occurred. Please try again.', color: 'danger' })
+      console.log(response);
+      
     }
   }
 }

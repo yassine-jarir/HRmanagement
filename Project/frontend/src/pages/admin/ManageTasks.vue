@@ -162,7 +162,7 @@
   
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/users`, {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/Employee`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           'Content-Type': 'application/json'

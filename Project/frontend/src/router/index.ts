@@ -11,19 +11,10 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     name: 'admin',
-    path: '/',
+    path: '/admin',
     component: AppLayout,
     meta: { requiresAuth: true },
     children: [
-      {
-        name: 'dashboard',
-        path: 'dashboard',
-        component: () => import('../pages/admin/dashboard/Dashboard.vue'),
-        meta: { 
-          requiresAuth: true,
-          role: 'admin'
-        },  
-      },
       
       {
         name: 'leaveRequests',
@@ -34,9 +25,8 @@ const routes: Array<RouteRecordRaw> = [
           role: 'admin'
         }
       },
-
       {
-        name: 'dashboard',
+        name: 'admin-dashboard',
         path: 'dashboard',
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
         meta: { 
@@ -129,43 +119,55 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     name: 'employee',
-    path: '/',
+    path: '/employee',
     component: AppLayout,
     meta: { requiresAuth: true },
     children: [
       {
-        name: 'dashboard',
-        path: 'dashboard',
-        component: () => import('../pages/admin/dashboard/Dashboard.vue'),
-        meta: { 
-          requiresAuth: true,
-          role: 'employee'
-        },  
-      },
-      {
-        name: 'dashboard',
+        name: 'employee-dashboard',
         path: 'dashboard',
         component: () => import('../pages/employee/dashboard.vue'),
         meta: { 
           requiresAuth: true,
           role: 'employee'
-        },  
+        }
       },
       {
-        name : 'profile',
-        path : 'profile',
-        component : () => import('../pages/employee/EmployeePorfile.vue'),
+        name: 'profile',
+        path: 'profile',
+        component: () => import('../pages/employee/EmployeePorfile.vue'),
+        meta: {
+          requiresAuth: true,
+          role: 'employee'
+        }
       },
       {
-        name : 'startWork',
-        path : 'startWork',
-        component : () => import('../pages/employee/StartWork.vue'),
+        name: 'startWork',
+        path: 'startWork',
+        component: () => import('../pages/employee/StartWork.vue'),
+        meta: {
+          requiresAuth: true,
+          role: 'employee'
+        }
       }
       ,
       {
-        name : 'requestLeave',
-        path : 'requestLeave',
-        component : () => import('../pages/employee/RequestLeave.vue'),
+        name: 'requestLeave',
+        path: 'requestLeave',
+        component: () => import('../pages/employee/RequestLeave.vue'),
+        meta: {
+          requiresAuth: true,
+          role: 'employee'
+        }
+      },
+      {
+        name: 'employee-tasks',
+        path: 'tasks',
+        component: () => import('../pages/employee/EmployeeTasks.vue'),
+        meta: {
+          requiresAuth: true,
+          role: 'employee'
+        }
       }
     ],
     

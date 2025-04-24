@@ -110,7 +110,7 @@
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue'
+import { reactive, watch , onMounted } from 'vue'
 
 const props = defineProps({
   taskForm: {
@@ -151,6 +151,7 @@ const handleSubmit = () => {
 const closeModal = () => {
   emit('close')
 }
+ 
 </script>
 
 <style scoped>
