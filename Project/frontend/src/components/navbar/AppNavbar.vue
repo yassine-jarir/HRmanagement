@@ -1,18 +1,20 @@
 <template>
-  <VaNavbar class="app-layout-navbar py-2 px-0">
-    <template #left>
-      <div class="left">
+  <VaNavbar class="app-layout-navbar py-2 px-0 min-h-[60px]">
+    <template #left >
+      <div class="left max-h-[90px]" >
         <Transition v-if="isMobile" name="icon-fade" mode="out-in">
-          <VaIcon
+          <!-- <VaIcon
             color="primary"
             :name="isSidebarMinimized ? 'menu' : 'close'"
             size="24px"
             style="margin-top: 3px"
             @click="isSidebarMinimized = !isSidebarMinimized"
-          />
+          /> -->
+          <img src="../../../public/logo.png" alt="" class="navbar-logo">
         </Transition>
         <RouterLink to="/" aria-label="Visit home page">
-          <VuesticLogo />
+          <!-- <VuesticLogo /> -->
+          <img src="../../../public/logo.png" alt="HR Management Logo" class="navbar-logo">
         </RouterLink>
       </div>
     </template>
@@ -22,11 +24,11 @@
   </VaNavbar>
 </template>
 
-<script setup >
+<script setup>
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '../../stores/global-store'
 import AppNavbarActions from './components/AppNavbarActions.vue'
-import VuesticLogo from '../VuesticLogo.vue'
+
 
 defineProps({
   isMobile: { type: Boolean, default: false },
@@ -65,6 +67,13 @@ const { isSidebarMinimized } = storeToRefs(GlobalStore)
   & > *:last-child {
     margin-right: 0;
   }
+}
+
+.navbar-logo {
+  width: 100%; 
+  max-width: 200px; 
+  height: auto;
+  object-fit: contain; 
 }
 
 .icon-fade-enter-active,
