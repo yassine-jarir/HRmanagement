@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
-class EmployeeController extends Controller
+class AdminManageUsersController extends Controller
 {
-     public function index()
+    protected $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $employees = User::all();
+        $this->userRepository = $userRepository;
+    }
+
+    public function index()
+    {
+        $employees = $this->userRepository->getAll();
         return response()->json($employees);
     }
 
@@ -23,23 +29,22 @@ class EmployeeController extends Controller
             'role' => 'nullable|string',
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        $validated['password'] = bcrypt($validated['password']);
 
-        $employee = User::create($validated);
+        $employee = $this->userRepository->create($validated);
 
         return response()->json($employee, 201);
     }
 
-
     public function show($id)
     {
-        $employee = User::findOrFail($id);
+        $employee = $this->userRepository->findById($id);
         return response()->json($employee);
     }
 
-     public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $employee = User::findOrFail($id);
+        $employee = $this->userRepository->findById($id);
 
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
@@ -49,18 +54,18 @@ class EmployeeController extends Controller
         ]);
 
         if (isset($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
+            $validated['password'] = bcrypt($validated['password']);
         }
 
-        $employee->update($validated);
+        $this->userRepository->update($employee, $validated);
 
         return response()->json($employee);
     }
 
-     public function destroy($id)
+    public function destroy($id)
     {
-        $employee = User::findOrFail($id);
-        $employee->delete();
+        $employee = $this->userRepository->findById($id);
+        $this->userRepository->delete($employee);
 
         return response()->json(['message' => 'Employee deleted successfully']);
     }

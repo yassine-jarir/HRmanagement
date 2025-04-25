@@ -5,7 +5,7 @@ use App\Models\leaveReq;
  use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LeaveReqController extends Controller
+class AdminLeaveReqController extends Controller
 {
      public function store(Request $request)
     {
@@ -33,7 +33,7 @@ class LeaveReqController extends Controller
         $leaveRequest = leaveReq::findOrFail($id);
 
         $request->validate([
-            'status' => 'required|in:approved,rejected',
+            'status' => 'required|in:approved,rejected,pending',
         ]);
 
         $leaveRequest->status = $request->status;

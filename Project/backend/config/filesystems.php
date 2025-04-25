@@ -76,5 +76,8 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
-
+'cloudinary' => [
+    'driver' => 'cloudinary',
+    'url' => env('CLOUDINARY_URL'),
+],
 ];

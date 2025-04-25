@@ -3,22 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pointage;
+use App\Models\Tasks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class pointController extends Controller
 {
     public function index(){
+        $pointages = Pointage::with('tasks')
+            ->where('employee_id', Auth::user()->id)
+            ->get();
+    
         return response()->json([
-            'pointages' => Pointage::where('employee_id', Auth::user()->id)->get()
+            'pointages' => $pointages
         ]);
     }
+    
     public function startWork(Request $request){
       $request->validate([
               'employee_id' => 'required|exists:users,id',
             'task_id' => 'required|exists:Tasks,id'
         ]);
-
+        $task = Tasks::find($request->task_id);
         $pointage = Pointage::create([
             'start_time' => now(),
             'end_time' => null,
@@ -28,7 +34,8 @@ class pointController extends Controller
 
         return response()->json([
             'message' => 'work created successfully',
-            'pointage' => $pointage
+            'pointage' => $pointage,
+            'task' => $task
         ]);
     }
     

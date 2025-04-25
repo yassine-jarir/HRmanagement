@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pointage', function (Blueprint $table) {
-            $table->dateTime('end_time')->nullable()->change();
+        Schema::table('Tasks', function (Blueprint $table) {
+            $table->enum('status', ['to_do', 'in_progress', 'completed'])->default('to_do')->change();
+
         });
     }
 
@@ -21,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pointage', function (Blueprint $table) {
+        Schema::table('Tasks', function (Blueprint $table) {
             //
         });
     }

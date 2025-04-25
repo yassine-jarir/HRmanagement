@@ -1,20 +1,26 @@
 <?php
 namespace App\Http\Controllers;
- use App\Models\Tasks;
+use App\Models\Tasks;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class TasksController 
+class AdminTasksController 
 {
      public function index()
     {
         $tasks = Tasks::with('users')->get();
         return response()->json($tasks);
     }
-     public function show($id)
+     public function show()
     {
-        $task = Tasks::with('users')->findOrFail($id);
-        return response()->json($task);
+         $userId = Auth::user()->id;
+        $tasks = Tasks::whereHas('users', function($query) use ($userId) {
+            $query->where('users.id', $userId);
+        })->with('users')->get();
+    
+        
+        return response()->json($tasks);
     }
      public function store(Request $request)
     {
@@ -60,7 +66,7 @@ class TasksController
 
         return response()->json(['message' => 'Task deleted']);
     }
-     public function getUsers()
+      public function getUsers()
     {
         $users = User::select('id', 'name')->get();
         return response()->json($users);

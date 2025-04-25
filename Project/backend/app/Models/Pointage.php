@@ -15,9 +15,9 @@ class Pointage extends Model
     protected $table = 'pointage';
 
     public function users(){
-        $this->belongsTo(User::class);
+      return  $this->belongsTo(User::class);
     }
     public function tasks(){
-        $this->belongsTo(Tasks::class);
+      return  $this->belongsTo(Tasks::class,'task_id');
     }
 }
