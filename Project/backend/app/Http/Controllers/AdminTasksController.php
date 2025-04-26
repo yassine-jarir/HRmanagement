@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tasks;
 use App\Models\User;
+use App\Notifications\TaskAssignedNotification;
 use App\Repositories\TaskRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,12 @@ class AdminTasksController extends Controller
         ]);
 
         $task = $this->taskRepository->create($validated);
-
+        foreach ($validated['user_ids'] as $userId) {
+            $user = $this->taskRepository->getOneemployee($userId);
+    
+            $user->notify(new TaskAssignedNotification($task));
+        }
+        
         return response()->json(['message' => 'Task created and assigned', 'task' => $task->load('users')]);
     }
 

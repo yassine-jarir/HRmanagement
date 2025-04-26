@@ -11,6 +11,9 @@ use App\Http\Controllers\AdminPayrollController;
 use App\Http\Controllers\AdminTasksController;
 use App\Http\Controllers\EmployeeStatsController;
 use App\Http\Controllers\EmoloyeeManageTasksController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StripePaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('register',[AuthController::class,'register']);
@@ -68,4 +71,13 @@ Route::middleware('auth:sanctum')->group(function () {
      
     //  employee -- tasks
      Route::patch('/employee/tasks/{taskId}/status', [EmoloyeeManageTasksController::class, 'updateTaskStatus']);
+
+
+    //  notifications 
+    Route::get('/notifications', [NotificationController::class, 'getNotifications']);
+    Route::post('/notifications/{notificationId}/mark-as-read', [NotificationController::class, 'markAsRead']);
+
+
 });
+// payment demo
+Route::post('create-checkout-session', [PaymentController::class, 'createCheckoutSession']);

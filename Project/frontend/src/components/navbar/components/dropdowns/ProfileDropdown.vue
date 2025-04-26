@@ -2,12 +2,9 @@
   <div class="profile-dropdown-wrapper">
     <VaDropdown v-model="isShown" :offset="[9, 0]" class="profile-dropdown" stick-to-edges>
       <template #anchor>
-        <VaButton preset="secondary" color="textPrimary">
-          <span class="profile-dropdown__anchor min-w-max">
-            <slot />
-            <VaAvatar :size="32" color="warning"> 😍 </VaAvatar>
-          </span>
-        </VaButton>
+        <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+    <span class="font-medium text-gray-600 dark:text-gray-300">JL</span>
+</div>
       </template>
       <VaDropdownContent
         class= "profile-dropdown__content md:w-60 px-0 py-4 w-full"

@@ -73,12 +73,12 @@ import { useToast } from 'vuestic-ui'
 const { init: toast } = useToast()
 const loading = ref(true)
 const assignedTasks = ref([])
-
+const token = localStorage.getItem('access_token')
 const fetchAssignedTasks = async () => {
   try {
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/taskss`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        Authorization: `Bearer ${token}`
       }
     })
     console.log('Assigned tasks:', response)
@@ -91,6 +91,21 @@ const fetchAssignedTasks = async () => {
     })
   } finally {
     loading.value = false
+  }
+}
+const fetchNotifications = async () => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/notifications`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,  
+        },
+    });
+    const notifications = await response.json();
+    console.log("notify", notifications)
+    
+  } catch (error) {
+    console.log("notify error : " ,error)
   }
 }
 
@@ -110,5 +125,6 @@ const calculateTimeSpent = (task) => {
 
 onMounted(() => {
   fetchAssignedTasks()
+  fetchNotifications()
 })
 </script>

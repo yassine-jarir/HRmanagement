@@ -47,4 +47,7 @@ class TaskRepository implements TaskRepositoryInterface
     {
         return $task->delete();
     }
+    public function getOneemployee($userId){
+        return User::find($userId);
+    }
 }

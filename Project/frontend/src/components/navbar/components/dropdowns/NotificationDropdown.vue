@@ -1,165 +1,122 @@
 <template>
   <VaDropdown :offset="[13, 0]" class="notification-dropdown" stick-to-edges :close-on-content-click="false">
     <template #anchor>
-      <VaButton preset="secondary" color="textPrimary">
+      <VaButton preset="secondary" color="textPrimary" class="notification-button">
         <VaBadge overlap>
-          <template #text> 2+</template>
+           <template v-if="unreadNotifications.length > 0">
+            <span :class="['notification-count', { 'has-unread': unreadNotifications.length > 0 }]">
+              {{ unreadNotifications.length }}+
+            </span>
+          </template>
           <VaIconNotification class="notification-dropdown__icon" />
         </VaBadge>
       </VaButton>
     </template>
-    <VaDropdownContent class="h-full sm:max-w-[420px] sm:h-auto">
-      <section class="sm:max-h-[320px] p-4 overflow-auto">
-        <VaList class="space-y-1 mb-2">
-          <template v-for="(item, index) in notificationsWithRelativeTime" :key="item.id">
-            <VaListItem class="text-base">
-              <VaListItemSection icon class="mx-0 p-0">
-                <VaIcon :name="item.icon" color="secondary" />
-              </VaListItemSection>
-              <VaListItemSection>
-                {{ item.message }}
-              </VaListItemSection>
-              <VaListItemSection icon class="mx-1">
-                {{ item.updateTimestamp }}
-              </VaListItemSection>
-            </VaListItem>
-            <VaListSeparator v-if="item.separator && index !== notificationsWithRelativeTime.length - 1" class="mx-3" />
-          </template>
-        </VaList>
 
-        <VaButton preset="primary" class="w-full" @click="displayAllNotifications = !displayAllNotifications"
-          >{{ displayAllNotifications ? t('notifications.less') : t('notifications.all') }}
-        </VaButton>
+    <VaDropdownContent class="h-full sm:max-w-[420px] sm:h-auto notification-content">
+      <section class="notification-list-container">
+        <div class="notification-header">
+          <h3 class="text-lg font-medium">Notifications</h3>
+        </div>
+        
+        <div class="notification-scrollable">
+          <VaList class="space-y-1">
+            <template v-for="(item, index) in notifications" :key="item.id">
+              <VaListItem
+                class="text-base notification-item"
+                @click="markAsRead(item.id)"
+                :class= "{ 'unread': !item.read_at } "
+              >
+                <VaListItemSection icon class="mx-0 p-0">
+                  <VaIcon :name="item.icon" color="secondary" />
+                </VaListItemSection>
+                <VaListItemSection>
+                  {{ item.message }}
+                </VaListItemSection>
+                <VaListItemSection icon class="mx-1">
+                  {{ item.updated_at }}
+                </VaListItemSection>
+              </VaListItem>
+              <VaListSeparator v-if="item.separator && index !== notifications.length - 1" class="mx-3" />
+            </template>
+          </VaList>
+        </div>
+
+        <div class="notification-footer">
+          <VaButton preset="primary" class="w-full view-all-btn" @click="displayAllNotifications = !displayAllNotifications" >
+            {{ displayAllNotifications ? t('notifications.less') : t('notifications.all') }}
+          </VaButton>
+        </div>
       </section>
     </VaDropdownContent>
   </VaDropdown>
 </template>
 
-<script setup lang="ts">
-import { ref, computed } from 'vue'
+<script setup>
+import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import VaIconNotification from '../../../icons/VaIconNotification.vue'
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
-const baseNumberOfVisibleNotifications = 4
-const rtf = new Intl.RelativeTimeFormat(locale.value, { style: 'short' })
-const displayAllNotifications = ref(false)
+ const displayAllNotifications = ref(false)
 
-interface INotification {
-  message: string
-  icon: string
-  id: number
-  separator?: boolean
-  updateTimestamp: Date
-}
+const notifications = ref([])
 
-const makeDateFromNow = (timeFromNow: number) => {
-  const date = new Date()
-  date.setTime(date.getTime() + timeFromNow)
-  return date
-}
+const unreadNotifications = computed(() => {
+  return notifications.value.filter(notification => !notification.read_at)
+})
 
-const notifications: INotification[] = [
-  {
-    message: '4 pending requests',
-    icon: 'favorite_outline',
-    id: 1,
-    separator: true,
-    updateTimestamp: makeDateFromNow(-3 * 60 * 1000),
-  },
-  {
-    message: '3 new reports',
-    icon: 'calendar_today',
-    id: 2,
-    separator: true,
-    updateTimestamp: makeDateFromNow(-12 * 60 * 60 * 1000),
-  },
-  {
-    message: 'Whoops! Your trial period has expired.',
-    icon: 'error_outline',
-    id: 3,
-    separator: true,
-    updateTimestamp: makeDateFromNow(-2 * 24 * 60 * 60 * 1000),
-  },
-  {
-    message: 'It looks like your timezone is set incorrectly, please change it to avoid issues with Memory.',
-    icon: 'schedule',
-    id: 4,
-    updateTimestamp: makeDateFromNow(-2 * 7 * 24 * 60 * 60 * 1000),
-  },
-  {
-    message: '2 new team members added',
-    icon: 'group_add',
-    id: 5,
-    separator: false,
-    updateTimestamp: makeDateFromNow(-3 * 60 * 1000),
-  },
-  {
-    message: 'Monthly budget exceeded by 10%',
-    icon: 'trending_up',
-    id: 6,
-    separator: true,
-    updateTimestamp: makeDateFromNow(-3 * 24 * 60 * 60 * 1000),
-  },
-  {
-    message: '7 tasks are approaching their deadlines',
-    icon: 'alarm',
-    id: 7,
-    separator: false,
-    updateTimestamp: makeDateFromNow(-5 * 60 * 60 * 1000),
-  },
-  {
-    message: 'New software update available',
-    icon: 'system_update',
-    id: 8,
-    separator: true,
-    updateTimestamp: makeDateFromNow(-1 * 24 * 60 * 60 * 1000),
-  },
-].sort((a, b) => new Date(b.updateTimestamp).getTime() - new Date(a.updateTimestamp).getTime())
-
-const TIME_NAMES = {
-  second: 1000,
-  minute: 1000 * 60,
-  hour: 1000 * 60 * 60,
-  day: 1000 * 60 * 60 * 24,
-  week: 1000 * 60 * 60 * 24 * 7,
-  month: 1000 * 60 * 60 * 24 * 30,
-  year: 1000 * 60 * 60 * 24 * 365,
-}
-
-const getTimeName = (differenceTime: number) => {
-  return Object.keys(TIME_NAMES).reduce(
-    (acc, key) => (TIME_NAMES[key as keyof typeof TIME_NAMES] < differenceTime ? key : acc),
-    'month',
-  ) as keyof typeof TIME_NAMES
-}
-
-const notificationsWithRelativeTime = computed(() => {
-  const list = displayAllNotifications.value ? notifications : notifications.slice(0, baseNumberOfVisibleNotifications)
-
-  return list.map((item, index) => {
-    const timeDifference = Math.round(new Date().getTime() - new Date(item.updateTimestamp).getTime())
-    const timeName = getTimeName(timeDifference)
-
-    let separator = false
-
-    const nextItem = list[index + 1]
-    if (nextItem) {
-      const nextItemDifference = Math.round(new Date().getTime() - new Date(nextItem.updateTimestamp).getTime())
-      const nextItemTimeName = getTimeName(nextItemDifference)
-
-      if (timeName !== nextItemTimeName) {
-        separator = true
+const fetchNotifications = async () => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/notifications`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       }
-    }
+    })
+    const data = await response.json()
 
-    return {
-      ...item,
-      updateTimestamp: rtf.format(-1 * Math.round(timeDifference / TIME_NAMES[timeName]), timeName),
-      separator,
+    notifications.value = data.map((item) => ({
+      message: item.data.task_name || item.data.leave_request || 'New notification',
+      icon: item.data.icon || 'notification_important',
+      id: item.id,
+      updateTimestamp: new Date(item.created_at).toLocaleString(),
+      read_at: item.read_at,  
+    }))
+  } catch (error) {
+    console.error('Error fetching notifications:', error)
+  }
+}
+
+const markAsRead = async (notificationId) => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/notifications/${notificationId}/mark-as-read`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        'Content-Type': 'application/json',
+      },
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      const notification = notifications.value.find((notif) => notif.id === notificationId)
+      if (notification) {
+        notification.read_at = new Date().toLocaleString() 
+      }
+      console.log(data.message)
+    } else {
+      console.error('Failed to mark notification as read:', data.message)
     }
-  })
+  } catch (error) {
+    console.error('Error marking notification as read:', error)
+  }
+}
+
+onMounted(() => {
+  fetchNotifications()
 })
 </script>
 
@@ -167,14 +124,138 @@ const notificationsWithRelativeTime = computed(() => {
 .notification-dropdown {
   cursor: pointer;
 
+  .notification-button {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
   .notification-dropdown__icon {
     position: relative;
     display: flex;
     align-items: center;
+    transition: color 0.2s ease;
   }
 
   .va-dropdown__anchor {
     display: inline-block;
+  }
+
+  .notification-count {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+    display: inline-block;
+    color: transparent; /* Make the number hidden by default */
+    background-color: rgba(255, 0, 0, 0.2); /* Light red background */
+    border-radius: 50%;
+    padding: 0.25rem 0.5rem;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .notification-count.has-unread {
+    color: #f44336; /* Modern red color for unread notifications */
+    background-color: rgba(255, 0, 0, 0.1); /* Light red background */
+    padding: 0.25rem 0.5rem;
+    display: inline-block;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); /* Subtle shadow to stand out */
+    font-size: 0.875rem;
+  }
+}
+
+.notification-content {
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.notification-list-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+}
+
+.notification-header {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.notification-scrollable {
+  overflow-y: auto;
+  max-height: 320px;
+  padding: 0.5rem 1rem;
+  scrollbar-width: thin;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+    
+    &:hover {
+      background: #a1a1a1;
+    }
+  }
+}
+
+.notification-footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.notification-item {
+  position: relative;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer; /* Added cursor pointer */
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    transform: translateX(2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  &.unread {
+    background-color: rgba(173, 216, 230, 0.3); /* Light blue for unread */
+    
+    &:hover {
+      background-color: rgba(173, 216, 230, 0.5); /* Darker light blue on hover */
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background-color: #4a90e2;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+  }
+}
+
+.view-all-btn {
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   }
 }
 </style>

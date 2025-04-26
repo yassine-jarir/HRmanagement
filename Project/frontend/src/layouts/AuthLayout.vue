@@ -7,7 +7,8 @@
         to="/"
         aria-label="Visit homepage"
       >
-        <VuesticLogo :height="28" start="#FFF" />
+        <!-- <VuesticLogo :height="28" start="#FFF" /> -->
+         <img src="../../public/logoWhite.png" alt="" style="width: 71%;"/>>
       </RouterLink>
     </template>
     <template #content>
@@ -23,7 +24,7 @@
         <main class="h-full flex flex-row items-center justify-start mx-auto max-w-[420px]">
           <div class="flex flex-col items-start">
             <RouterLink class="py-4" to="/" aria-label="Visit homepage">
-              <VuesticLogo class="mb-2" start="#0E41C9" />
+              <img src="../../public/logoWhite.png" alt="">
             </RouterLink>
             <RouterView />
           </div>
@@ -35,7 +36,7 @@
 
 <script lang="ts" setup>
 import { useBreakpoint } from 'vuestic-ui'
-import VuesticLogo from '../components/VuesticLogo.vue'
+// import VuesticLogo from '../components/VuesticLogo.vue'
 
 const breakpoint = useBreakpoint()
 </script>
