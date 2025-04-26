@@ -1,43 +1,48 @@
 <template>
   <div>
-    <index-navbar />
-    <section class="header relative pt-16 items-center flex h-screen max-h-860-px">
-      <div class="container mx-auto items-center flex flex-wrap">
-        <div class="w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
-          <div class="pt-32 sm:pt-0">
-            <h2 class="font-semibold text-4xl text-blueGray-600">
-              HR Management Dashboard - Streamline Your Workforce
-            </h2>
-            <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
-              Our HR management system provides you with powerful tools to efficiently manage employee data, track performance, and streamline HR processes. From onboarding to performance reviews, this dashboard covers it all.
-            </p>
-            <div class="mt-12">
-              <a
-                href="#"
-                @click="startPayment"
-                class="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-emerald-500 active:bg-emerald-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
-              >
-                Start Managing Your HR System
-              </a>
-              <a
-                href="https://github.com/creativetimofficial/vue-notus?ref=vn-index"
-                class="github-star ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
-                target="_blank"
-              >
-                GitHub Repository
-              </a>
-            </div>
-            
-          </div>
+    <index-navbar :checkout="checkout" />
+    <section class="header relative pt-16 items-center flex h-screen max-h-860-px overflow-hidden">
+  <div class="container mx-auto flex flex-wrap items-center relative z-10">
+    <div class="w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
+      <div class="pt-32 sm:pt-0">
+        <h2 class="font-semibold text-4xl text-blueGray-600 animate-fadeInUp">
+          HR Management Dashboard - Streamline Your Workforce
+        </h2>
+        <p class="mt-4 text-lg leading-relaxed text-blueGray-500 animate-fadeInUp delay-200">
+          Our HR management system provides you with powerful tools to efficiently manage employee data, track performance, and streamline HR processes. From onboarding to performance reviews, this dashboard covers it all.
+        </p>
+        <div class="mt-12 flex space-x-4 animate-fadeInUp delay-400">
+          <a
+            href="#"
+            @click="checkout"
+            class="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none bg-emerald-500 active:bg-emerald-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
+          >
+            Start Managing Your HR System
+          </a>
+          <a
+            href="https://github.com/yassine-jarir/HRmanagement"
+            class="github-star text-white font-bold px-6 py-4 rounded outline-none focus:outline-none bg-blueGray-700 active:bg-blueGray-600 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
+            target="_blank"
+          >
+            GitHub Repository
+          </a>
         </div>
       </div>
+    </div>
 
-      <img
-        class="absolute top-0 b-auto right-0 pt-16 sm:w-6/12 -mt-48 sm:mt-0 w-10/12 max-h-860-px"
-        :src="patternVue"
-        alt="HR Dashboard Preview"
-      />
-    </section>
+    <!-- <div class="hidden md:block md:w-4/12 lg:w-6/12 xl:w-6/12 px-4 animate-slideInRight">
+      <div class="relative group overflow-hidden rounded-lg shadow-2xl">
+        <img src="../assets/dashboardDemo.png" alt="dashboard demo" class="w-full h-auto transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-1" />
+      </div>
+    </div> -->
+  </div>
+
+  <img
+    class="absolute top-0 right-0 w-10/12 sm:w-6/12 max-h-860-px opacity-30 animate-fadeIn"
+    :src="patternVue"
+    alt="HR Dashboard Preview"
+  />
+</section>
 
     <section class="mt-48 md:mt-40 pb-40 relative bg-blueGray-100">
       <div class="-mt-20 top-0 bottom-auto left-0 right-0 w-full absolute h-20" style="transform: translateZ(0);">
@@ -48,30 +53,33 @@
       <div class="container mx-auto">
         <div class="flex flex-wrap items-center">
           <div class="w-10/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-32">
-            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-emerald-500">
-              <img
-                alt="HR Management"
-                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"
-                class="w-full align-middle rounded-t-lg"
-              />
-              <blockquote class="relative p-8 mb-4">
-                <svg
-                  preserveAspectRatio="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 583 95"
-                  class="absolute left-0 w-full block h-95-px -top-94-px"
-                >
-                  <polygon points="-30,95 583,95 583,65" class="text-emerald-500 fill-current"></polygon>
-                </svg>
-                <h4 class="text-xl font-bold text-white">
-                  Empower Your HR Team with Real-Time Insights
-                </h4>
-                <p class="text-md font-light mt-2 text-white">
-                  With our HR management system, you can seamlessly track employee performance, streamline workflows, and automate HR tasks to improve overall efficiency.
-                </p>
-              </blockquote>
-            </div>
-          </div>
+  <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-emerald-500 overflow-hidden">
+    <div class="overflow-hidden">
+      <img
+        alt="HR Management"
+        src="../assets/payroll.png"
+        class="w-full align-middle rounded-t-lg transform transition-transform duration-500 hover:scale-110"
+      />
+    </div>
+    <blockquote class="relative p-8 mb-4">
+      <svg
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 583 95"
+        class="absolute left-0 w-full block h-95-px -top-94-px"
+      >
+        <polygon points="-30,95 583,95 583,65" class="text-emerald-500 fill-current"></polygon>
+      </svg>
+      <h4 class="text-xl font-bold text-white">
+        Empower Your HR Team with Real-Time Insights
+      </h4>
+      <p class="text-md font-light mt-2 text-white">
+        With our HR management system, you can seamlessly track employee performance, streamline workflows, and automate HR tasks to improve overall efficiency.
+      </p>
+    </blockquote>
+  </div>
+</div>
+
 
           <div class="w-full md:w-6/12 px-4">
             <div class="flex flex-wrap">
@@ -313,7 +321,7 @@
               alt="HR Documentation"
               class="max-w-full rounded-lg shadow-xl"
               style="transform: scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg) rotate(2deg);"
-              :src="documentation"
+              src="../assets/demo2.png"
             />
           </div>
         </div>
@@ -322,8 +330,40 @@
     <footer-component />
   </div>
 </template>
+<style>
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
+@keyframes slideInRight {
+  0% { opacity: 0; transform: translateX(100px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 1.2s ease-out forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeInUp 2s ease-out forwards;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}</style>
 <script>
+import { loadStripe } from '@stripe/stripe-js';
+
+
 import IndexNavbar from "@/components/Navbars/IndexNavbar.vue";
 import FooterComponent from "@/components/Footers/Footer.vue";
 
@@ -338,10 +378,40 @@ import documentation from "@/assets/img/documentation.png";
 import login from "@/assets/img/login.jpg";
 import profile from "@/assets/img/profile.jpg";
 import landing from "@/assets/img/landing.jpg";
+ 
 
 export default {
+  async mounted() {
+      this.stripe = await loadStripe(process.env.VUE_APP_PUBLISH_KEY);
+  },
+
+  methods: {
+    async checkout() {
+      this.loading = true;
+
+      const response = await fetch('http://127.0.0.1:8000/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const session = await response.json();
+
+       const result = await this.stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+
+      if (result.error) {
+        console.error(result.error.message);
+      }
+
+      this.loading = false;
+    },
+  },
+ 
   data() {
     return {
+      stripe: null,
+      loading: false,
       patternVue,
       componentBtn,
       componentProfileCard,
