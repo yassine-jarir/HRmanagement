@@ -25,7 +25,7 @@ class EmoloyeeManageTasksController extends Controller
             'status' => 'success',
             'message' => 'Task status updated successfully',
             'data' => $task
-        ]);
+        ], 200);
     }
 
 

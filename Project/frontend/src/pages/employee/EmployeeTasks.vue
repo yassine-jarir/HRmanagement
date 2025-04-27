@@ -29,7 +29,8 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Task Name</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Spent</th>
+ 
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -44,17 +45,25 @@
                   <span 
                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                     :class="{
-                      'bg-gray-100 text-gray-800': task.status === 'To Do',
-                      'bg-yellow-100 text-yellow-800': task.status === 'In Progress',
-                      'bg-purple-100 text-purple-800': task.status === 'Review',
-                      'bg-green-100 text-green-800': task.status === 'Done'
+                      'bg-gray-100 text-gray-800': task.status === 'to_do',
+                      'bg-yellow-100 text-yellow-800': task.status === 'in_progress',
+                      'bg-green-100 text-green-800': task.status === 'completed'
                     }"
                   >
                     {{ task.status }}
                   </span>
                 </td>
+ 
                 <td class="px-6 py-4">
-                  {{ calculateTimeSpent(task) }}
+                  <select 
+                    v-model="task.status" 
+                    @change="updateTaskStatus(task.id, task.status)" 
+                    class="px-4 py-2 rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                  >
+                    <option value="to_do">To Do</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
                 </td>
               </tr>
             </tbody>
@@ -74,9 +83,10 @@ const { init: toast } = useToast()
 const loading = ref(true)
 const assignedTasks = ref([])
 const token = localStorage.getItem('access_token')
+
 const fetchAssignedTasks = async () => {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/taskss`, {
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/tasks`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -93,38 +103,38 @@ const fetchAssignedTasks = async () => {
     loading.value = false
   }
 }
-const fetchNotifications = async () => {
+
+const updateTaskStatus = async (taskId, status) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/notifications`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,  
-        },
-    });
-    const notifications = await response.json();
-    console.log("notify", notifications)
+    const response = await axios.put(`${import.meta.env.VITE_APP_API_URL}/api/employee/tasks/${taskId}/status`, 
+    {
+      status: status
+    }, 
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    console.log(response);
     
+       toast({
+        message: 'Task status updated successfully',
+        color: 'success'
+      })
+      
+ 
+    fetchAssignedTasks()  
   } catch (error) {
-    console.log("notify error : " ,error)
+    console.error('Error updating task status:', error)
+    toast({
+      message: 'Failed to update task status',
+      color: 'danger'
+    })
   }
 }
 
-const calculateTimeSpent = (task) => {
-  if (!task.pointages || task.pointages.length === 0) return '0h 0m'
-  
-  const totalMinutes = task.pointages.reduce((total, pointage) => {
-    const start = new Date(pointage.start_time)
-    const end = pointage.end_time ? new Date(pointage.end_time) : new Date()
-    return total + (end - start) / (1000 * 60)
-  }, 0)
-
-  const hours = Math.floor(totalMinutes / 60)
-  const minutes = Math.round(totalMinutes % 60)
-  return `${hours}h ${minutes}m`
-}
-
+ 
 onMounted(() => {
   fetchAssignedTasks()
-  fetchNotifications()
 })
 </script>

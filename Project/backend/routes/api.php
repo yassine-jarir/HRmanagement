@@ -69,7 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/employee/stats/leaves', [EmployeeStatsController::class, 'getLeaveStats']);
      
     //  employee -- tasks
-     Route::patch('/employee/tasks/{taskId}/status', [EmoloyeeManageTasksController::class, 'updateTaskStatus']);
+     Route::PUT('/employee/tasks/{taskId}/status', [EmoloyeeManageTasksController::class, 'updateTaskStatus']);
 
 
     //  notifications 
