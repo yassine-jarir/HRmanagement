@@ -56,6 +56,9 @@
 import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import VaIconNotification from '../../../icons/VaIconNotification.vue'
+import { useRouter } from 'vue-router'
+ 
+const router = useRouter()
 
 const { t } = useI18n()
 
@@ -77,19 +80,33 @@ const fetchNotifications = async () => {
     })
     const data = await response.json()
 
-    notifications.value = data.map((item) => ({
-      message: item.data.task_name || item.data.leave_request || 'New notification',
-      icon: item.data.icon || 'notification_important',
-      id: item.id,
-      updateTimestamp: new Date(item.created_at).toLocaleString(),
-      read_at: item.read_at,  
-    }))
+    notifications.value = data.map((item) => {
+       if (item.data.leave_request && item.data.leave_type) {
+         return {
+          message: `New leave request: ${item.data.leave_type}`,
+          icon: 'event_note', 
+          id: item.id,
+          updateTimestamp: new Date(item.created_at).toLocaleString(),
+          read_at: item.read_at,
+        }
+      } else {
+        return {
+          message:  `New Task : ${item.data.task_name}`,
+          icon: item.data.icon || 'notification_important',
+          id: item.id,
+          updateTimestamp: new Date(item.created_at).toLocaleString(),
+          read_at: item.read_at,
+        }
+      }
+    })
   } catch (error) {
     console.error('Error fetching notifications:', error)
   }
 }
 
+
 const markAsRead = async (notificationId) => {
+  
   try {
     const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/notifications/${notificationId}/mark-as-read`, {
       method: 'POST',
@@ -107,6 +124,13 @@ const markAsRead = async (notificationId) => {
         notification.read_at = new Date().toLocaleString() 
       }
       console.log(data.message)
+      const user = await JSON.parse(localStorage.getItem('user')) 
+      if (user.role === 'admin') {
+        router.push({name : 'leaveRequests'})
+      }else if(user.role === 'employee'){
+        router.push({name : 'employee-tasks'})
+
+      }
     } else {
       console.error('Failed to mark notification as read:', data.message)
     }
