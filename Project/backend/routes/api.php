@@ -53,7 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Admin -- pointage 
     Route::get('/calculPayroll', [AdminPayrollController::class, 'calculAllPayrolls']);
- 
+    Route::get('/calculAllPayrollsOnlick', [AdminPayrollController::class, 'calculAllPayrollsOnlick']); 
     // Employee Profile Management Routes
     Route::get('/profile', [EmployeeProfileController::class, 'show']);
     Route::put('/employee/profile', [EmployeeProfileController::class, 'update']);

@@ -8,14 +8,14 @@
 
       <div class="mb-6 flex justify-end">
         <button
-          @click="calculateAllPayrolls"
+          @click="calculateAllPayrollsOnlick"
           :disabled="loading"
           class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
         >
           <span v-if="loading" class="mr-2">
             <span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block"></span>
           </span>
-          Calculate All Payrolls
+          Calculate All Payrolls and save
         </button>
       </div>
 
@@ -44,7 +44,7 @@ const loading = ref(false)
   
 const calculateAllPayrolls = async () => {
   try {
-    // loading.value = true
+    loading.value = true
     const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/calculPayroll`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`
@@ -60,6 +60,30 @@ const calculateAllPayrolls = async () => {
     console.error('Error calculating payrolls:', error)
     toast({
       message: 'Failed to calculate payrolls',
+      color: 'danger'
+    })
+  } finally {
+    loading.value = false
+  }
+}
+const calculateAllPayrollsOnlick = async () => {
+  try {
+    loading.value = true
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/calculAllPayrollsOnlick`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      }
+    })
+
+    employees.value = response.data.payrolls
+    toast({
+      message: 'Payrolls calculated and saved successfully',
+      color: 'success'
+    })
+  } catch (error) {
+    console.error('Error calculating payrolls:', error)
+    toast({
+      message: 'Failed to calculate and save payrolls',
       color: 'danger'
     })
   } finally {
