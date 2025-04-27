@@ -23,8 +23,8 @@ Route::post('logout',[AuthController::class,'logout'])
 
 Route::middleware('auth:sanctum')->group(function () {
     // Admin Dashboard Statistics
-    Route::get('/dashboard-stats', [AdminDashboardController::class, 'getDashboardStats']);
-    Route::get('/payroll-chart', [AdminDashboardController::class, 'getPayrollChart']);
+    Route::get('/dashboard-stats', [AdminDashboardController::class, 'getAdminStats']);
+    Route::get('/payroll-chart', [AdminDashboardController::class, 'getAdminPayrollChart']);
 
     // Admin -- tasks
     Route::get('/tasks', [AdminTasksController::class, 'index']);

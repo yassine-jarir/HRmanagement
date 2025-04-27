@@ -13,49 +13,58 @@ class EmployeeStatsController extends Controller
 {
     public function getTaskStats()
     {
-        $userId = Auth::id();
-        
-        $taskStats = Tasks::whereHas('users', function($query) use ($userId) {
+        $userId = Auth::id(); 
+    
+        $totalTasks = Tasks::whereHas('users', function($query) use ($userId) {
             $query->where('users.id', $userId);
-        })
-        ->select('status', DB::raw('count(*) as count'))
-        ->groupBy('status')
-        ->get();
+        })->count();
+    
+        $activeTasks = Tasks::whereHas('users', function($query) use ($userId) {
+            $query->where('users.id', $userId);
+        })->where('status', 'in_progress')->count();
 
-        $monthlyTaskCompletion = Tasks::whereHas('users', function($query) use ($userId) {
+        $completedTasks = Tasks::whereHas('users', function($query) use ($userId) {
             $query->where('users.id', $userId);
-        })
-        ->where('status', 'completed')
-        ->count();
+        })->where('status', 'completed')->count();
+
+        $toDoTasks = Tasks::whereHas('users', function($query) use ($userId) {
+            $query->where('users.id', $userId);
+        })->where('status', 'to_do')->count();
 
         return response()->json([
-            'task_status_distribution' => $taskStats,
-            'monthly_completed_tasks' => $monthlyTaskCompletion
+            'tasks' => [
+                'total' => $totalTasks,
+                'active' => $activeTasks,
+                'completed' => $completedTasks,
+                'to_do' => $toDoTasks,
+            ]
         ]);
     }
+    
 
     public function getLeaveStats()
     {
         $userId = Auth::id();
-        
-        $leaveStats = leaveReq::where('emplyee_id', $userId)
-            ->select('type', DB::raw('count(*) as count'))
-            ->groupBy('type')
-            ->get();
+    
+        $leaveStats = [
+            'rejected' => leaveReq::where('emplyee_id', $userId)->where('status', 'rejected')->count(),
+            'approved' => leaveReq::where('emplyee_id', $userId)->where('status', 'approved')->count(),
+            'pending' => leaveReq::where('emplyee_id', $userId)->where('status', 'pending')->count(),
+        ];
 
-        $monthlyLeaves = leaveReq::where('emplyee_id', $userId)
-            ->where('start_date', '>=', Carbon::now()->startOfMonth())
-            ->count();
-
+      $total_leaves =  leaveReq::where('emplyee_id', $userId)->count();
         return response()->json([
-            'leave_status_distribution' => $leaveStats,
-            'monthly_leave_requests' => $monthlyLeaves
+            'approved' => $leaveStats['approved'],
+            'rejected' => $leaveStats['rejected'],
+            'pending' => $leaveStats['pending'],
+            'total_leaves' => $total_leaves
         ]);
     }
+    
+
     public function calculSalaryHours()
     {
         $totalHours = 0;
-        $salary = 0;
         $pointages = Pointage::where('employee_id', Auth::user()->id)->get();
 
          foreach ($pointages as $pointage) {
@@ -66,13 +75,10 @@ class EmployeeStatsController extends Controller
                 $totalHours += $start_time->diffInHours($end_time);
             }
         }
- 
- 
-
         return response()->json([
             'message' => 'Payroll calculated and saved successfully',
-            'totalHours' => $totalHours,
-            'salary' => $totalHours * 20,
+            'totalHours' => round($totalHours, 2),
+            'salary' => round($totalHours * 20, 2),
         ]);
     }
 }

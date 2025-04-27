@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
 {
-    public function getPayrollChart()
+    public function getAdminPayrollChart()
     {
         try {
             $monthlyPayroll = [];
@@ -62,7 +62,7 @@ class AdminDashboardController extends Controller
     }
     
 
-    public function getDashboardStats()
+    public function getAdminStats()
     {
         try {
             $totalEmployees = User::where('role', 'employee')->count();
