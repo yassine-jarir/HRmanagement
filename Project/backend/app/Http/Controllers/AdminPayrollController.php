@@ -12,7 +12,7 @@ class AdminPayrollController extends Controller
 {
     public function calculAllPayrolls()
     {
-        $users = User::all();  
+        $users = User::where('role', 'employee')->get();  
         $payrolls = [];
     
         foreach ($users as $user) {
@@ -41,7 +41,6 @@ class AdminPayrollController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    // add more fields if needed
                 
                 'salary' => $payroll->salary,
                 'hours_worked' => $payroll->hours_worked,
@@ -55,33 +54,5 @@ class AdminPayrollController extends Controller
         ]);
     }
     
-
-     public function calculPayroll($employeeId)
-    {
-        $totalHours = 0;
-        $pointages = Pointage::where('employee_id', $employeeId)->get();
-
-         foreach ($pointages as $pointage) {
-            $start_time = Carbon::parse($pointage->start_time);
-            $end_time = $pointage->end_time ? Carbon::parse($pointage->end_time) : null;
-
-            if ($end_time) {
-                $totalHours += $start_time->diffInHours($end_time);
-            }
-        }
-
-         $hourlyRate = 20;
-        $payroll = Payroll::create([
-            'user_id' => $employeeId,  
-            'salary' => $totalHours * $hourlyRate,  
-            'hours_worked' => $totalHours,
-            'payment_date' => now(),
-        ]);
-
-        return response()->json([
-            'message' => 'Payroll calculated and saved successfully',
-            'payroll' => $payroll,
-            'employeeid' => $employeeId,
-        ]);
-    }
+ 
 }

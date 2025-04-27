@@ -20,7 +20,7 @@ class LeaveRepository implements LeaveRepositoryInterface
 
     public function getAll()
     {
-        return leaveReq::all();
+        return LeaveReq::with('user:id,name')->get();
     }
 
     public function getById(int $id)

@@ -10,7 +10,7 @@
                   <th>ID</th>
                   <th>Created At</th>
                   <th>Updated At</th>
-                  <th>Employee ID</th>
+                  <th>Employee Name</th>
                   <th>Type</th>
                   <th>Start Date</th>
                   <th>End Date</th>
@@ -24,7 +24,7 @@
                   <td>{{ request.id }}</td>
                   <td>{{ formatDate(request.created_at) }}</td>
                   <td>{{ formatDate(request.updated_at) }}</td>
-                  <td>{{ request.emplyee_id }}</td>
+                  <td>{{ request.user.name }}</td>
                   <td>{{ request.type }}</td>
                   <td>{{ formatDate(request.start_date) }}</td>
                   <td>{{ formatDate(request.end_date) }}</td>
@@ -49,15 +49,15 @@
                     >
                       Reject
                     </button>
-                                    <button 
-                                    v-else-if="isAdmin && (request.status === 'approved' || request.status === 'rejected')"
-                                    class="btn btn-warning btn-sm" @click="updateStatus(request.id, 'pending')" style="background-color: #ffc107; color: #212529;">
-                                    Revert to Pending
-                                    </button>
-                     
-                     
-                              </td>
-                              </tr>
+                      <button 
+                      v-else-if="isAdmin && (request.status === 'approved' || request.status === 'rejected')"
+                      class="btn btn-warning btn-sm" @click="updateStatus(request.id, 'pending')" style="background-color: #ffc107; color: #212529;">
+                      Revert to Pending
+                      </button>
+        
+        
+                </td>
+                </tr>
               </tbody>
             </table>
             <div v-else class="empty-state">

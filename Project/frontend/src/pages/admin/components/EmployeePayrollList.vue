@@ -37,7 +37,6 @@
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Salary</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Payment</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -80,14 +79,6 @@
                   {{ employee.payment_date ? 'Paid' : 'Pending' }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button
-                  @click="calculatePayroll(employee.id)"
-                  class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-full transition-colors duration-150"
-                >
-                  Calculate
-                </button>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -96,9 +87,6 @@
   </template>
 
   <script setup>
-  import { ref, computed } from 'vue'
-  import axios from 'axios'
-
   const props = defineProps({
     employees: {
       type: Array,
@@ -113,19 +101,5 @@
       day: 'numeric'
     })
   }
- 
-  const calculatePayroll = async (employeeId) => {
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/calculPayroll/${employeeId}`, {}, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        }
-      })
-      emit('refresh')
-    } catch (error) {
-      console.error('Error calculating payroll:', error)
-    }
-  }
-
   const emit = defineEmits(['refresh'])
   </script>

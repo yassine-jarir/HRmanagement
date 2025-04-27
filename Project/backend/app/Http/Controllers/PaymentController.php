@@ -25,7 +25,7 @@ class PaymentController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => 'http://localhost:5173/auth/login',
+            'success_url' => 'http://localhost:5173/auth/signup',
             'cancel_url' => 'http://localhost:8080/cancel',
         ]);
 

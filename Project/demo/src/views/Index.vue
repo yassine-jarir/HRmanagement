@@ -209,8 +209,9 @@
                   <div class="bg-red-600 shadow-lg rounded-lg text-center p-8">
                     <img
                       alt="HR Management"
-                      class="shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white"
-                      src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/svelte.jpg"
+                      class="shadow-md rounded-full max-w-full w-[9rem] mx-auto p-2 bg-white"
+                      style="width: 8rem;"
+                      src="https://img.freepik.com/vecteurs-libre/illustration-du-concept-recrutement_114360-24595.jpg?t=st=1745764550~exp=1745768150~hmac=ecb9442fc55f31cedda55fb9967fb2362bb3a4ed947158257ee384f2e0b37c7b&w=740"
                     />
                     <p class="text-lg text-white mt-4 font-semibold">
                       Recruiters
@@ -226,8 +227,9 @@
                   >
                     <img
                       alt="HR Management"
-                      class="shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white"
-                      src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/react.jpg"
+                      class="shadow-md rounded-full max-w-full w-[9rem] mx-auto p-2 bg-white"
+                      style="width: 8rem;"
+                      src="https://img.freepik.com/vecteurs-libre/concept-gestion-entreprise-distance-homme-affaires-tenant-tablette-montrant-analyses-graphiques-connectes_1284-44658.jpg?t=st=1745764478~exp=1745768078~hmac=a72dd0fc01ae67e2911da916c517809848350763c1b85610433603be3e358e40&w=740"
                     />
                     <p class="text-lg text-white mt-4 font-semibold">
                      Analytics
@@ -243,8 +245,9 @@
                   >
                     <img
                       alt="HR Management"
-                      class="shadow-md rounded-full max-w-full w-16 mx-auto p-2 bg-white"
-                      src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/nextjs.jpg"
+                      class="shadow-md rounded-full  w-[9rem] mx-auto p-2 bg-white"
+                      style="width: 8rem;"
+                      src="https://img.freepik.com/vecteurs-libre/illustration-du-concept-ressources-humaines_114360-22204.jpg?t=st=1745763728~exp=1745767328~hmac=38ce2025bea09036c3928af1dd913acc85fd9a1c87322bc388dd04cec7daba23&w=740"
                     />
                     <p class="text-lg text-white mt-4 font-semibold">
                      Management

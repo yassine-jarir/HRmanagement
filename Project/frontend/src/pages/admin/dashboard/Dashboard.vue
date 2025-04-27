@@ -44,7 +44,7 @@
             <i class="fas fa-money-bill text-purple-600"></i>
           </div>
         </div>
-        <p class="text-3xl font-bold mt-4">${{ formatNumber(stats.total_payroll || 0) }}</p>
+        <p class="text-3xl font-bold mt-4">${{ stats.total_payroll || 0 }}</p>
         <p class="text-sm text-gray-500 mt-2">Current Month</p>
       </div>
     </div>
@@ -57,19 +57,9 @@
         </div>
       </div>
 
-       <PayrollChart ref="payrollChartRef" />
+       <PayrollChart />
     </div>
-
-     <div class="mt-6 flex justify-end">
-      <button 
-        @click="refreshData" 
-        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-        :disabled="loading"
-      >
-        <i class="fas fa-sync-alt mr-2"></i>
-        Refresh Stats
-      </button>
-    </div>
+ 
   </div>
 </template>
 
@@ -83,10 +73,9 @@ const loading = ref(true)
 const error = ref(null)
 const stats = ref({})
 const taskChartRef = ref(null)
-const payrollChartRef = ref(null)
-let taskChart = null
+ let taskChart = null
 
-const API_URL = import.meta.env.VITE_APP_API_URL
+ 
 
 const fetchStats = async () => {
   try {
@@ -143,18 +132,8 @@ const updateTaskChart = () => {
     taskChart.update()
   }
 }
-
-const refreshData = async () => {
-  await fetchStats()
-  if (payrollChartRef.value) {
-    payrollChartRef.value.refreshData()
-  }
-}
-
-const formatNumber = (num) => {
-  return new Intl.NumberFormat('en-US').format(num)
-}
-
+ 
+ 
 onMounted(() => {
   fetchStats()
   initTaskChart()
