@@ -35,7 +35,7 @@ class AuthController extends Controller
         $user = User::where('email',$loginUserData['email'])->first();
         if(!$user || !Hash::check($loginUserData['password'],$user->password)){
             return response()->json([
-                'message' => 'Invalid Credentials'
+                'message' => 'Invalid Credentials',
             ],401);
         }
         $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
@@ -43,6 +43,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'user' => $user,
             'message' => 'Logged in successfully'
+            
         ]);
     }
 

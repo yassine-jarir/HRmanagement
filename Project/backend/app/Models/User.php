@@ -29,7 +29,8 @@ class User extends Authenticatable
         'date_of_birth',
         'department',
         'position',
-        'hire_date'
+        'hire_date',
+        'profile_image',
     ];
 
     /**

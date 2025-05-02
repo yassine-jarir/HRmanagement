@@ -55,9 +55,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/calculPayroll', [AdminPayrollController::class, 'calculAllPayrolls']);
     Route::get('/calculAllPayrollsOnlick', [AdminPayrollController::class, 'calculAllPayrollsOnlick']); 
     // Employee Profile Management Routes
-    Route::get('/profile', [EmployeeProfileController::class, 'show']);
-    Route::put('/employee/profile', [EmployeeProfileController::class, 'update']);
+    // Route::get('/profile', [EmployeeProfileController::class, 'show']);
+    // Route::put('/employee/profile', [EmployeeProfileController::class, 'update']);
 
+// Routes for Profile and Password Update
+Route::get('/profile', [EmployeeProfileController::class, 'show']);
+Route::put('/employee/profile', [EmployeeProfileController::class, 'updateProfile']);
+Route::put('/employee/password', [EmployeeProfileController::class, 'updatePassword']);
  
     Route::get('/leave-requests', [employeeLeaveRequest::class, 'index']);
     Route::post('/leave-requests', [employeeLeaveRequest::class, 'store']);
