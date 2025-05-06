@@ -5,7 +5,7 @@
            aria-hidden="true"
            @click="closeModal"></div>
 
-      <div class="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl sm:my-16">
+      <div style="position: relative; top: 100px;" class="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl sm:my-16">
         <div class="absolute top-0 right-0 pt-4 pr-4">
           <button
             type="button"

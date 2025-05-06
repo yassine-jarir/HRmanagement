@@ -59,10 +59,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::put('/employee/profile', [EmployeeProfileController::class, 'update']);
 
 // Routes for Profile and Password Update
-Route::get('/profile', [EmployeeProfileController::class, 'show']);
-Route::put('/employee/profile', [EmployeeProfileController::class, 'updateProfile']);
-Route::put('/employee/password', [EmployeeProfileController::class, 'updatePassword']);
- 
+    Route::get('/profile', [EmployeeProfileController::class, 'show']);
+    Route::put('/employee/profile', [EmployeeProfileController::class, 'updateProfile']);
+    Route::put('/employee/password', [EmployeeProfileController::class, 'updatePassword']);
+    
     Route::get('/leave-requests', [employeeLeaveRequest::class, 'index']);
     Route::post('/leave-requests', [employeeLeaveRequest::class, 'store']);
     Route::delete('/leave-requests/{id}', [employeeLeaveRequest::class, 'destroy']);
